@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jay Repair Shop | Tech Repair & Electronics Store</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandBlue: '#0f172a',
+                        brandAccent: '#0ea5e9',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        #wheel {
+            transition: transform 4s cubic-bezier(0.15, 0.9, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col justify-between relative">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-brandBlue text-white sticky top-0 z-40 shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
+            <a href="#home" class="text-2xl font-bold tracking-tight text-brandAccent">⚡ Jay Repair Shop</a>
+            <div class="flex flex-wrap justify-center items-center gap-2 md:gap-4 text-sm font-medium">
+                <a href="#home" class="nav-link hover:text-brandAccent transition">Home</a>
+                <a href="#booking" class="nav-link hover:text-brandAccent transition font-semibold">Book Repair</a>
+                <a href="#shop" class="nav-link text-emerald-400 hover:text-emerald-300 transition font-bold flex items-center gap-1">🛒 Buy Devices</a>
+                <a href="#sell" class="nav-link text-amber-300 hover:text-amber-200 transition font-bold flex items-center gap-1">💵 Sell Stuff</a>
+                <a href="#spin-and-save" class="nav-link hover:text-brandAccent transition font-semibold text-amber-400">Spin & Save</a>
+                <a href="#guides-reviews" class="nav-link hover:text-brandAccent transition font-semibold">Track & Guides</a>
+                <a href="#contact" class="nav-link hover:text-brandAccent transition">Contact</a>
+                
+                <!-- ADMIN LOCK BUTTON -->
+                <button onclick="openAdminModal()" title="Owner Admin Portal" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-lg text-slate-300 hover:text-white transition">
+                    🔑
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PAGE 1: HOME -->
+    <main id="page-home" class="page-content grow">
+        <header class="bg-brandBlue text-white py-20 px-4 text-center">
+            <div class="max-w-3xl mx-auto">
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
+                    Broken Device? <br>
+                    <span class="text-brandAccent">We Fix It Fast or At Your Home.</span>
+                </h1>
+                <p class="text-lg text-gray-300 mb-4">
+                    Professional repair services for Computers, Laptops, and Phones. Certified technicians & premium refurbished electronics for sale.
+                </p>
+                <p class="text-sm md:text-base text-sky-300 font-medium mb-8 bg-slate-800/80 p-3 rounded-lg border border-slate-700">
+                    🚀 <strong>Skip the wait!</strong> Booking in advance guarantees priority service—skip the line even if there’s a queue of walk-in customers when you arrive.[cite: 1]
+                </p>
+                <div class="flex justify-center gap-4 flex-wrap">
+                    <a href="#booking" class="bg-brandAccent text-white px-8 py-3 rounded-lg font-bold shadow-lg hover:bg-sky-500 transition duration-300">
+                        Book Your Repair
+                    </a>
+                    <a href="#shop" class="bg-emerald-600 text-white px-8 py-3 rounded-lg font-bold shadow-lg hover:bg-emerald-500 transition duration-300">
+                        🛒 Shop Electronic Devices
+                    </a>
+                    <a href="#sell" class="bg-amber-500 text-slate-900 px-8 py-3 rounded-lg font-bold shadow-lg hover:bg-amber-400 transition duration-300">
+                        💵 Sell Your Stuff
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Quick Info Highlights -->
+        <section class="py-12 px-4 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                <h3 class="text-xl font-bold mb-2 text-slate-900">⚡ Fast & Priority Repair</h3>
+                <p class="text-gray-600 text-sm">Book online in advance to skip the walk-in queue and get your tech fixed without waiting in line.[cite: 1]</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                <h3 class="text-xl font-bold mb-2 text-slate-900">🚗 House Calls Available</h3>
+                <p class="text-gray-600 text-sm">We come straight to your doorstep for phone and laptop repairs with transparent per-km call-out pricing.[cite: 1]</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- PAGE 2: BOOKING -->
+    <main id="page-booking" class="page-content hidden grow">
+        <section class="py-16 px-4 max-w-4xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Book Your Repair Slot</h2>
+                    <p class="text-gray-500">Provide your details below to schedule your repair with Jay Repair Shop.[cite: 1]</p>
+                </div>
+
+                <form id="repairForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Service Type -->
+                        <div class="md:col-span-2 bg-sky-50 p-4 rounded-xl border border-sky-200">
+                            <label for="serviceMode" class="block text-sm font-bold text-slate-900 mb-2">Repair Option</label>
+                            <select id="serviceMode" required onchange="toggleHomeOption()" class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-brandAccent focus:outline-none font-semibold text-slate-800">
+                                <option value="Shop Drop-off">Bring Device to Shop</option>
+                                <option value="Fix at Home">Fix Phone / Laptop at My Home (Call-out)</option>
+                            </select>
+                        </div>
+
+                        <!-- Contact Name -->
+                        <div>
+                            <label for="userName" class="block text-sm font-semibold text-gray-700 mb-2">Your Full Name</label>
+                            <input type="text" id="userName" required placeholder="e.g., John Doe" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brandAccent focus:outline-none">
+                        </div>
+
+                        <!-- Phone Number -->
+                        <div>
+                            <label for="userPhone" class="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
+                            <input type="tel" id="userPhone" required placeholder="e.g., 082 123 4567" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brandAccent focus:outline-none">
+                        </div>
+
+                        <!-- Device Type Selection -->
+                        <div>
+                            <label for="deviceType" class="block text-sm font-semibold text-gray-700 mb-2">Device Type</label>
+                            <select id="deviceType" required class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-brandAccent focus:outline-none">
+                                <option value="" disabled selected>Select device type...</option>
+                                <option value="Computer">Computer (Desktop)</option>
+                                <option value="Laptop">Laptop</option>
+                                <option value="Phone">Phone</option>
+                            </select>
+                        </div>
+
+                        <!-- Device Brand & Model -->
+                        <div>
+                            <label for="deviceName" class="block text-sm font-semibold text-gray-700 mb-2">Device Brand & Model</label>
+                            <input type="text" id="deviceName" required placeholder="e.g., iPhone 14, Dell Inspiron" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brandAccent focus:outline-none">
+                        </div>
+
+                        <!-- Issue Type -->
+                        <div class="md:col-span-2">
+                            <label for="issue" class="block text-sm font-semibold text-gray-700 mb-2">What's the Issue?</label>
+                            <select id="issue" class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-brandAccent focus:outline-none">
+                                <option value="screen">Cracked Screen Replacement</option>
+                                <option value="battery">Battery Replacement</option>
+                                <option value="charging">Charging Port issues</option>
+                                <option value="water">Liquid / Water Damage</option>
+                                <option value="software">Software / OS Reinstallation</option>
+                                <option value="hardware">Hardware Upgrade (SSD, RAM, etc.)</option>
+                                <option value="other">Other Diagnostic / Issue</option>
+                            </select>
+                        </div>
+
+                        <!-- CALL-OUT DETAILS SECTION -->
+                        <div id="homeAddressContainer" class="hidden md:col-span-2 bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+                            <h3 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 flex items-center gap-2">
+                                🏠 Call-out Home Address & Location
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="houseNumber" class="block text-sm font-semibold text-gray-700 mb-1">House / Unit Number</label>
+                                    <input type="text" id="houseNumber" placeholder="e.g., House No. 42" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white">
+                                </div>
+                                <div>
+                                    <label for="streetName" class="block text-sm font-semibold text-gray-700 mb-1">Street Name</label>
+                                    <input type="text" id="streetName" placeholder="e.g., Main Street" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white">
+                                </div>
+                                <div>
+                                    <label for="subTown" class="block text-sm font-semibold text-gray-700 mb-1">Sub-town / Suburb</label>
+                                    <input type="text" id="subTown" placeholder="e.g., Block L" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white">
+                                </div>
+                                <div>
+                                    <label for="town" class="block text-sm font-semibold text-gray-700 mb-1">Town / City</label>
+                                    <input type="text" id="town" placeholder="e.g., Soshanguve" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white">
+                                </div>
+                            </div>
+                            <!-- Photo of House Exterior -->
+                            <div class="mt-4 pt-2 border-t border-slate-200">
+                                <label class="block text-sm font-bold text-slate-800 mb-1">🏡 Photo of Your House from Outside (Optional)</label>
+                                <input type="file" id="housePhoto" accept="image/*" capture="environment" onchange="previewHouseMedia(event)" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-sky-100 file:text-sky-900 cursor-pointer">
+                                <div id="housePreviewBox" class="hidden mt-3 text-center">
+                                    <p class="text-xs font-semibold text-emerald-700 mb-2">✓ Exterior house photo ready!</p>
+                                    <div id="housePreviewHolder" class="max-h-40 flex justify-center items-center overflow-hidden rounded-lg border border-gray-300 bg-slate-900"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Device Media Upload -->
+                        <div id="mediaCaptureContainer" class="hidden md:col-span-2 bg-amber-50 p-4 rounded-xl border border-amber-200">
+                            <label class="block text-sm font-bold text-amber-900 mb-1">📷 Take a Photo/Video of Your Device</label>
+                            <input type="file" id="deviceMedia" accept="image/*,video/*" capture="environment" onchange="previewMedia(event)" class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-amber-400 file:text-slate-900 hover:file:bg-amber-300 cursor-pointer">
+                            <div id="mediaPreviewBox" class="hidden mt-4 text-center">
+                                <div id="previewHolder" class="max-h-48 flex justify-center items-center overflow-hidden rounded-lg border border-gray-300 bg-black"></div>
+                            </div>
+                        </div>
+
+                        <!-- Date & Time -->
+                        <div>
+                            <label for="bookingDate" class="block text-sm font-semibold text-gray-700 mb-2">Booking Date</label>
+                            <input type="date" id="bookingDate" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brandAccent focus:outline-none">
+                        </div>
+                        <div>
+                            <label for="bookingTime" class="block text-sm font-semibold text-gray-700 mb-2">Estimated Arrival Time</label>
+                            <input type="time" id="bookingTime" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brandAccent focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="w-full md:w-auto bg-brandBlue text-white px-10 py-4 rounded-lg font-bold hover:bg-slate-800 transition">
+                            Submit & Send WhatsApp Booking
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Result Card -->
+                <div id="resultCard" class="hidden mt-8 p-6 bg-sky-50 border border-sky-100 rounded-xl">
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Your Booking Details Generated!</h3>
+                    <div class="border-t border-sky-200 pt-4 mt-4 space-y-2">
+                        <p class="text-gray-700"><strong class="text-slate-900">Customer Name:</strong> <span id="displayName"></span></p>
+                        <p class="text-gray-700"><strong class="text-slate-900">Phone Number:</strong> <span id="displayPhone"></span></p>
+                        <p class="text-gray-700"><strong class="text-slate-900">Repair Option:</strong> <span id="displayMode"></span></p>
+                        <p class="text-gray-700"><strong class="text-slate-900">Device:</strong> <span id="displayDevice"></span></p>
+                        <p class="text-gray-700"><strong class="text-slate-900">Service Needed:</strong> <span id="displayService"></span></p>
+                        <p class="text-gray-700"><strong class="text-slate-900">Scheduled Hand-in:</strong> <span id="displaySchedule"></span></p>
+                        <p class="text-gray-700"><strong class="text-slate-900">Applied Voucher:</strong> <span id="displayDiscount" class="text-amber-600 font-semibold">None</span></p>
+                    </div>
+                    <button id="sendWhatsAppFallback" class="mt-6 w-full bg-emerald-600 text-white py-3 rounded-lg font-bold hover:bg-emerald-700 transition">
+                        Send to WhatsApp Manually
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- PAGE 3: SHOP / ELECTRONICS STORE -->
+    <main id="page-shop" class="page-content hidden grow bg-gray-50 py-12 px-4">
+        <div class="max-w-6xl mx-auto space-y-16">
+            <div class="text-center">
+                <span class="bg-emerald-100 text-emerald-800 text-xs font-extrabold uppercase px-3 py-1 rounded-full">Certified Tech Store</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2 mb-2">Electronics & Devices For Sale</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Browse our quality-checked pre-owned and new electronics across cellphones, computers, and laptops. Click photos to view different angles![cite: 1]</p>
+            </div>
+
+            <!-- SECTION 1: CELLPHONES -->
+            <section class="space-y-6">
+                <div class="flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <span class="text-3xl">📱</span>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-900">Cellphones & Smartphones</h3>
+                        <p class="text-xs text-gray-500">Quality-checked, pre-owned & new smartphones with warranty[cite: 1]</p>
+                    </div>
+                </div>
+                <div id="grid-cellphone" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Cellphone products render dynamically here -->
+                </div>
+            </section>
+
+            <!-- SECTION 2: COMPUTERS (DESKTOPS) -->
+            <section class="space-y-6">
+                <div class="flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <span class="text-3xl">🖥️</span>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-900">Computers & Workstations</h3>
+                        <p class="text-xs text-gray-500">Desktop PCs, custom rigs, and workstation setups[cite: 1]</p>
+                    </div>
+                </div>
+                <div id="grid-computer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Computer products render dynamically here -->
+                </div>
+            </section>
+
+            <!-- SECTION 3: LAPTOPS -->
+            <section class="space-y-6">
+                <div class="flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <span class="text-3xl">💻</span>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-900">Laptops & MacBooks</h3>
+                        <p class="text-xs text-gray-500">Tested laptops for work, study, and gaming[cite: 1]</p>
+                    </div>
+                </div>
+                <div id="grid-laptop" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Laptop products render dynamically here -->
+                </div>
+            </section>
+
+            <!-- Custom Request Banner -->
+            <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-md border border-slate-700 p-8 text-white flex flex-col md:flex-row justify-between items-center gap-6">
+                <div>
+                    <span class="bg-brandAccent text-white text-xs font-bold px-2.5 py-1 rounded-full">Custom Sourcing</span>
+                    <h3 class="text-2xl font-bold mt-3 mb-1">Looking for Something Specific?</h3>
+                    <p class="text-sm text-gray-300">We source customized laptops, MacBooks, gaming desktop setups, and specific phone models tailored directly to your budget.[cite: 1]</p>
+                </div>
+                <a href="https://wa.me/27780688691?text=Hello%20Jay%20Repair%20Shop!%20I%20am%20looking%20to%20buy%20a%20specific%20electronic%20device." target="_blank" class="shrink-0 bg-brandAccent hover:bg-sky-500 text-white px-6 py-3 rounded-xl font-bold text-center block transition shadow-lg">
+                    💬 Request Custom Device
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- PAGE 4: SELL YOUR STUFF -->
+    <main id="page-sell" class="page-content hidden grow bg-gray-50 py-16 px-4">
+        <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+            <div class="text-center mb-8">
+                <span class="bg-amber-100 text-amber-800 text-xs font-extrabold uppercase px-3 py-1 rounded-full">Peer-to-Store Marketplace</span>
+                <h2 class="text-3xl font-bold text-gray-900 mt-2 mb-2">Sell Your Device or Electronics</h2>
+                <p class="text-gray-500 text-sm">Got an old phone, laptop, or computer you want to sell? Fill out the details below and send your listing straight to our WhatsApp![cite: 1]</p>
+            </div>
+
+            <form id="sellDeviceForm" onsubmit="handleUserSellSubmission(event)" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="sellerName" class="block text-sm font-semibold text-gray-700 mb-2">Your Full Name</label>
+                        <input type="text" id="sellerName" required placeholder="e.g., Sarah Smith" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brandAccent focus:outline-none">
+                    </div>
+                    <div>
+                        <label for="sellerPhone" class="block text-sm font-semibold text-gray-700 mb-2">WhatsApp Contact Number</label>
+                        <input type="tel" id="sellerPhone" required placeholder="e.g., 082 987 6543" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brandAccent focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label for="sellCategory" class="block text-sm font-semibold text-gray-700 mb-2">Device Category</label>
+                        <select id="sellCategory" required class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-brandAccent focus:outline-none">
+                            <option value="cellphone">📱 Cellphone / Smartphone</option>
+                            <option value="laptop">💻 Laptop / MacBook</option>
+                            <option value="computer">🖥️ Computer / Desktop</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="sellTitle" class="block text-sm font-semibold text-gray-700 mb-2">Device Brand & Model</label>
+                        <input type="text" id="sellTitle" required placeholder="e.g., iPhone 11 128GB or HP Pavilion" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brandAccent focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label for="sellPrice" class="block text-sm font-semibold text-gray-700 mb-2">Your Asking Price (ZAR)</label>
+                        <input type="text" id="sellPrice" required placeholder="e.g., R 3,500" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brandAccent focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label for="sellCondition" class="block text-sm font-semibold text-gray-700 mb-2">Condition</label>
+                        <select id="sellCondition" required class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-brandAccent focus:outline-none">
+                            <option value="Brand New / Sealed">Brand New / Sealed</option>
+                            <option value="Used - Excellent Grade A">Used - Excellent Grade A</option>
+                            <option value="Used - Minor Scratches">Used - Minor Scratches</option>
+                            <option value="Faulty / Broken for Parts">Faulty / Broken for Parts</option>
+                        </select>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label for="sellSpecs" class="block text-sm font-semibold text-gray-700 mb-2">Description & Included Accessories</label>
+                        <textarea id="sellSpecs" rows="3" required placeholder="Describe storage size, battery health, any faults, and what comes with it (charger, box, etc.)" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brandAccent focus:outline-none"></textarea>
+                    </div>
+
+                    <!-- Photo Upload for Selling -->
+                    <div class="md:col-span-2 bg-amber-50 p-4 rounded-xl border border-amber-200">
+                        <label class="block text-sm font-bold text-amber-900 mb-1">📸 Upload Photo of the Device You Are Selling</label>
+                        <input type="file" id="sellPhotoInput" accept="image/*" capture="environment" onchange="previewSellPhoto(event)" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-amber-400 file:text-slate-900 cursor-pointer">
+                        <div id="sellPhotoPreviewBox" class="hidden mt-3 text-center">
+                            <div id="sellPhotoHolder" class="max-h-48 flex justify-center items-center overflow-hidden rounded-lg border border-gray-300 bg-slate-900"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-4 rounded-xl font-extrabold text-lg shadow-lg transition flex items-center justify-center gap-2">
+                        💬 Send Sell Offer via WhatsApp
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- PAGE 5: SPIN & SAVE -->
+    <main id="page-spin-and-save" class="page-content hidden grow bg-slate-900 text-white py-16">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col items-center">
+            <div class="text-center mb-6">
+                <span class="bg-amber-400 text-slate-900 text-xs font-black uppercase px-3 py-1 rounded-full">Exclusive Offer</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-sky-400 mt-2 mb-2">Spin & Try Your Luck</h2>
+                <p class="text-gray-300">Give the wheel a spin to unlock a 20% deposit discount or other repair offers![cite: 1]</p>
+            </div>
+
+            <div class="relative flex flex-col items-center max-w-md w-full bg-slate-800 p-6 rounded-2xl shadow-2xl border border-slate-700">
+                <div class="absolute -top-3 z-20 w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-t-[30px] border-t-amber-400 drop-shadow-md"></div>
+                <div class="relative w-72 h-72 md:w-80 md:h-80 my-4 flex items-center justify-center overflow-hidden rounded-full border-4 border-amber-400 shadow-lg">
+                    <canvas id="wheel" width="320" height="320" class="w-full h-auto aspect-square max-w-[280px] md:max-w-none"></canvas>
+                </div>
+                <button id="spinBtn" onclick="spinWheel()" class="mt-4 w-full bg-amber-400 hover:bg-amber-300 text-slate-900 font-extrabold py-3 rounded-xl text-lg shadow-lg transition active:scale-95">
+                    SPIN THE WHEEL
+                </button>
+                <div id="wheelResult" class="hidden mt-6 p-4 bg-slate-700 border border-sky-400 rounded-xl text-center w-full">
+                    <h3 id="resultTitle" class="text-xl font-bold text-emerald-400 mb-1">🎉 Spin Result!</h3>
+                    <p id="resultText" class="text-gray-200 text-sm mb-3"></p>
+                    <a href="#booking" class="inline-block bg-brandAccent text-white font-bold py-2 px-6 rounded-lg text-sm hover:bg-sky-500 transition">
+                        Apply to Booking Form
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- MERGED PAGE 6 & 7: TRACK REPAIR, GUIDES & REVIEWS (UNDER 1 PAGE) -->
+    <main id="page-guides-reviews" class="page-content hidden grow bg-gray-50 py-16 px-4">
+        <div class="max-w-6xl mx-auto space-y-16">
+            <div class="text-center">
+                <span class="bg-amber-100 text-amber-800 text-xs font-extrabold uppercase px-3 py-1 rounded-full">Community & Support Tools</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2 mb-2">Track Repair, Guides & Reviews</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Track your active repair progress, explore expert DIY maintenance tips, and read or submit verified customer feedback.[cite: 1]</p>
+            </div>
+
+            <!-- SECTION 1: TRACK REPAIR STATUS -->
+            <section class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                <div class="flex items-center gap-3 border-b border-gray-200 pb-4 mb-6">
+                    <span class="text-3xl">🔍</span>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-900">Track My Repair Status</h3>
+                        <p class="text-xs text-gray-500">Enter your ticket number or phone number to see real-time progress[cite: 1]</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="md:col-span-2">
+                        <input type="text" id="trackInput" placeholder="Enter Ticket ID (e.g., JAY-1042) or Phone Number" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brandAccent focus:outline-none">
+                    </div>
+                    <button onclick="trackRepairStatus()" class="bg-brandBlue hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-lg transition shadow">
+                        Check Status
+                    </button>
+                </div>
+                <div id="trackResultBox" class="hidden mt-6 p-4 bg-sky-50 border border-sky-200 rounded-xl">
+                    <h4 class="font-bold text-slate-900 mb-2">Repair Status: <span id="trackStatusText" class="text-brandAccent">In Progress</span></h4>
+                    <p class="text-sm text-gray-600" id="trackDetailsText">Your device is currently undergoing diagnostics by our technicians.[cite: 1]</p>
+                </div>
+            </section>
+
+            <!-- SECTION 2: DIY REPAIR GUIDES & TECH TIPS BLOG -->
+            <section class="space-y-6">
+                <div class="flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <span class="text-3xl">💡</span>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-900">DIY Repair Guides & Tech Tips</h3>
+                        <p class="text-xs text-gray-500">Expert advice to keep your electronics running smoothly[cite: 1]</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 space-y-2">
+                        <span class="bg-sky-100 text-sky-800 text-[10px] font-extrabold px-2.5 py-1 rounded-full">Battery Life</span>
+                        <h4 class="text-lg font-bold text-slate-900">How to Extend Your Smartphone Battery Life</h4>
+                        <p class="text-sm text-gray-600">Avoid extreme temperatures, manage background app refresh rates, and optimize your screen brightness to keep your battery healthy longer.[cite: 1]</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 space-y-2">
+                        <span class="bg-amber-100 text-amber-800 text-[10px] font-extrabold px-2.5 py-1 rounded-full">Water Damage</span>
+                        <h4 class="text-lg font-bold text-slate-900">Dropped Your Phone in Water? Do This Immediately</h4>
+                        <p class="text-sm text-gray-600">Power it off instantly, remove the SIM tray if possible, and **do not** use rice or a hair dryer. Bring it to our shop for professional chemical cleaning![cite: 1]</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: CUSTOMER REVIEWS & TESTIMONIALS -->
+            <section class="space-y-6">
+                <div class="flex items-center justify-between border-b border-gray-200 pb-3 flex-wrap gap-4">
+                    <div class="flex items-center gap-3">
+                        <span class="text-3xl">⭐</span>
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900">Customer Reviews & Testimonials</h3>
+                            <p class="text-xs text-gray-500">See what our clients have to say about our repair speed and quality[cite: 1]</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100 flex flex-col justify-between">
+                        <div>
+                            <div class="text-amber-400 text-lg mb-2">⭐⭐⭐⭐⭐</div>
+                            <p class="text-sm text-gray-600 italic mb-4">"Fixed my cracked iPhone screen in less than 30 minutes right at my house. Super convenient and professional!"[cite: 1]</p>
+                        </div>
+                        <div class="text-xs font-bold text-slate-900">— Thabo M. (Soshanguve)[cite: 1]</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100 flex flex-col justify-between">
+                        <div>
+                            <div class="text-amber-400 text-lg mb-2">⭐⭐⭐⭐⭐</div>
+                            <p class="text-sm text-gray-600 italic mb-4">"Bought a refurbished Dell laptop for my studies. Runs like brand new and came with a solid warranty."[cite: 1]</p>
+                        </div>
+                        <div class="text-xs font-bold text-slate-900">— Lerato K.[cite: 1]</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100 flex flex-col justify-between">
+                        <div>
+                            <div class="text-amber-400 text-lg mb-2">⭐⭐⭐⭐⭐</div>
+                            <p class="text-sm text-gray-600 italic mb-4">"Skipped the walk-in queue using the online booking tool. Absolute lifesaver when you're in a rush."[cite: 1]</p>
+                        </div>
+                        <div class="text-xs font-bold text-slate-900">— David S.[cite: 1]</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: SUBMIT A REVIEW FORM -->
+            <section class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                <div class="text-center mb-8">
+                    <span class="bg-amber-100 text-amber-800 text-xs font-extrabold uppercase px-3 py-1 rounded-full">We Value Your Feedback</span>
+                    <h2 class="text-3xl font-bold text-gray-900 mt-2 mb-2">Leave a Customer Review</h2>
+                    <p class="text-gray-500 text-sm">Had your phone or laptop fixed by Jay Repair Shop? Let us know about your experience![cite: 1]</p>
+                </div>
+
+                <form id="reviewSubmissionForm" onsubmit="handleReviewSubmission(event)" class="space-y-6">
+                    <div>
+                        <label for="reviewAuthor" class="block text-sm font-semibold text-gray-700 mb-2">Your Full Name / Initials</label>
+                        <input type="text" id="reviewAuthor" required placeholder="e.g., Thabo M. (Soshanguve)" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brandAccent focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Select Star Rating</label>
+                        <div class="flex items-center gap-3 bg-gray-50 p-3 rounded-lg border border-gray-200">
+                            <select id="reviewRating" required class="w-full px-3 py-2 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-brandAccent focus:outline-none font-medium text-slate-800">
+                                <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐ (5/5 - Excellent)</option>
+                                <option value="⭐⭐⭐⭐">⭐⭐⭐⭐ (4/5 - Very Good)</option>
+                                <option value="⭐⭐⭐">⭐⭐⭐ (3/5 - Average)</option>
+                                <option value="⭐⭐">⭐⭐ (2/5 - Poor)</option>
+                                <option value="⭐">⭐ (1/5 - Terrible)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="reviewServiceType" class="block text-sm font-semibold text-gray-700 mb-2">Service You Received</label>
+                        <select id="reviewServiceType" required class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-brandAccent focus:outline-none">
+                            <option value="Phone/Laptop Repair">🛠️ Phone / Laptop Repair (Shop or Call-out)</option>
+                            <option value="Bought a Device">🛒 Bought a Refurbished/New Device</option>
+                            <option value="Sold a Device">💵 Sold a Device</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="reviewComment" class="block text-sm font-semibold text-gray-700 mb-2">Your Review & Experience</label>
+                        <textarea id="reviewComment" rows="4" required placeholder="Tell us about the speed, quality, or professionalism of the service..." class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brandAccent focus:outline-none"></textarea>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="w-full bg-brandBlue hover:bg-slate-800 text-white py-4 rounded-xl font-extrabold text-lg shadow-lg transition flex items-center justify-center gap-2">
+                            ⭐ Submit Review & Send to WhatsApp
+                        </button>
+                    </div>
+                </form>
+
+                <div id="reviewSuccessCard" class="hidden mt-6 p-6 bg-emerald-50 border border-emerald-200 rounded-xl text-center">
+                    <h3 class="text-xl font-bold text-emerald-800 mb-1">🎉 Thank You for Your Feedback!</h3>
+                    <p class="text-gray-600 text-sm mb-4">Your review details have been generated and sent to our team via WhatsApp.[cite: 1]</p>
+                    <button onclick="resetReviewForm()" class="bg-brandBlue text-white text-xs font-bold py-2 px-4 rounded-lg hover:bg-slate-800 transition">
+                        Submit Another Review
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- PAGE 9: CONTACT -->
+    <main id="page-contact" class="page-content hidden grow bg-gray-100 py-16 px-4">
+        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Why Book With Us?</h3>
+                <p class="text-gray-700 mb-3 font-medium">⚡ <strong>Priority Care:</strong> Booking in advance guarantees priority service![cite: 1]</p>
+                <p class="text-gray-700 mb-4 font-medium">🚗 <strong>Call-out Rates:</strong> R10/km for the first 5 km, and R5/km beyond that.[cite: 1]</p>
+                <div class="space-y-3 text-gray-700 border-t border-gray-200 pt-4">
+                    <p>📞 <strong>Phone:</strong> 078 068 8691[cite: 1]</p>
+                    <p>✉️ <strong>Email:</strong> jayjackie2026@gmail.com[cite: 1]</p>
+                    <p>⏰ <strong>Hours:</strong> Mon - Sat: 08:00 - 17:00[cite: 1]</p>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md flex flex-col justify-center border border-gray-100">
+                <h4 class="text-lg font-bold mb-2 text-slate-900">Our Quality Guarantee</h4>
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    We use only Grade-A premium parts for all repairs. Every replacement screen, battery, component installed, or device sold comes backed by our service warranty.[cite: 1]
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- OWNER ADMIN MODAL -->
+    <div id="adminModal" class="hidden fixed inset-0 z-50 bg-slate-900/80 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-200 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-gray-400 hover:text-slate-800 font-bold text-xl">&times;</button>
+            
+            <!-- Login State -->
+            <div id="adminLoginBox" class="space-y-4">
+                <h3 class="text-xl font-bold text-slate-900">🔑 Owner Login</h3>
+                <p class="text-xs text-gray-500">Enter your store passcode to add or delete items from the store.[cite: 1]</p>
+                <input type="password" id="adminPasscode" placeholder="Enter Owner Passcode" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brandAccent">
+                <button onclick="checkAdminPasscode()" class="w-full bg-brandBlue text-white py-2.5 rounded-lg font-bold hover:bg-slate-800">Login to Dashboard</button>
+            </div>
+
+            <!-- Add Product Form State -->
+            <div id="adminFormBox" class="hidden space-y-4">
+                <div class="flex justify-between items-center border-b pb-2">
+                    <h3 class="text-xl font-bold text-slate-900">➕ Add Device to Store</h3>
+                    <span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-0.5 rounded font-bold">Admin Active</span>
+                </div>
+                <form id="addDeviceForm" onsubmit="handleAddNewDevice(event)" class="space-y-3">
+                    
+                    <!-- CATEGORY SELECTION -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-900 mb-1">Target Catalog Section</label>
+                        <select id="newCategory" required class="w-full px-3 py-2 text-sm border rounded-lg bg-white font-semibold text-slate-800">
+                            <option value="cellphone">📱 Cellphones</option>
+                            <option value="computer">🖥️ Computers (Desktop)</option>
+                            <option value="laptop">💻 Laptops</option>
+                        </select>
+                    </div>
+
+                    <!-- 5 DEDICATED PHOTO SLOTS -->
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
+                        <label class="block text-xs font-extrabold text-slate-900 mb-1">📸 Upload 5 Angles of the Device:</label>
+                        
+                        <div class="space-y-2 text-xs">
+                            <div>
+                                <span class="font-bold text-slate-700">1. Front View (Main Photo):</span>
+                                <input type="file" accept="image/*" onchange="handleSingleSlotPhoto(event, 0)" class="w-full mt-1 text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-sky-100 file:text-sky-800 file:font-semibold">
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-700">2. Back View:</span>
+                                <input type="file" accept="image/*" onchange="handleSingleSlotPhoto(event, 1)" class="w-full mt-1 text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-sky-100 file:text-sky-800 file:font-semibold">
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-700">3. Left Side View:</span>
+                                <input type="file" accept="image/*" onchange="handleSingleSlotPhoto(event, 2)" class="w-full mt-1 text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-sky-100 file:text-sky-800 file:font-semibold">
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-700">4. Right Side View:</span>
+                                <input type="file" accept="image/*" onchange="handleSingleSlotPhoto(event, 3)" class="w-full mt-1 text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-sky-100 file:text-sky-800 file:font-semibold">
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-700">5. Top / Bottom / Extra Angle:</span>
+                                <input type="file" accept="image/*" onchange="handleSingleSlotPhoto(event, 4)" class="w-full mt-1 text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-sky-100 file:text-sky-800 file:font-semibold">
+                            </div>
+                        </div>
+
+                        <!-- Live Thumbnail Preview Bar -->
+                        <div id="slotPreviewsContainer" class="hidden pt-2 border-t border-slate-200">
+                            <p class="text-[10px] font-bold text-emerald-700 mb-1">Uploaded Angles Preview:</p>
+                            <div id="slotThumbsFlex" class="flex gap-2 overflow-x-auto"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700">Device Title / Model</label>
+                        <input type="text" id="newTitle" placeholder="e.g. iPhone 13 Pro 256GB" required class="w-full px-3 py-2 text-sm border rounded-lg">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700">Price (e.g. R 8,500)</label>
+                            <input type="text" id="newPrice" placeholder="R 8,500" required class="w-full px-3 py-2 text-sm border rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700">Badge / Grade</label>
+                            <input type="text" id="newBadge" placeholder="Pre-Owned Grade A" required class="w-full px-3 py-2 text-sm border rounded-lg">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700">Fallback Emoji (If no photo)</label>
+                        <select id="newEmoji" class="w-full px-3 py-2 text-sm border rounded-lg bg-white">
+                            <option value="📱">📱 Smartphone</option>
+                            <option value="💻">💻 Laptop</option>
+                            <option value="🖥️">🖥️ Desktop PC</option>
+                            <option value="🎧">🎧 Audio / Accessory</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700">Specifications / Description</label>
+                        <textarea id="newSpecs" rows="3" placeholder="Enter device highlights (separated by lines or commas)" required class="w-full px-3 py-2 text-sm border rounded-lg"></textarea>
+                    </div>
+                    <button type="submit" id="submitDeviceBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-xl font-bold transition">
+                        Publish Device to Store
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING CHATBOT WIDGET INTEGRATION -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <button id="chatbotToggle" onclick="toggleChatbot()" class="bg-brandAccent hover:bg-sky-500 text-white rounded-full p-4 shadow-2xl flex items-center justify-center gap-2 transition transform hover:scale-105 active:scale-95">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-sm hidden md:inline">Ask AI Assistant</span>
+        </button>
+
+        <div id="chatbotWindow" class="hidden absolute bottom-16 right-0 w-80 md:w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden max-h-[500px]">
+            <div class="bg-brandBlue text-white p-4 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <span class="text-xl">🤖</span>
+                    <div>
+                        <h4 class="font-bold text-sm">Jay Repair Assistant</h4>
+                        <p class="text-xs text-emerald-400 font-medium">● Online | Priority Support</p>
+                    </div>
+                </div>
+                <button onclick="toggleChatbot()" class="text-gray-300 hover:text-white font-bold text-lg">&times;</button>
+            </div>
+
+            <div id="chatMessages" class="p-4 overflow-y-auto grow space-y-3 text-sm h-72 bg-gray-50">
+                <div class="bg-slate-200 text-slate-800 p-3 rounded-xl rounded-tl-none max-w-[85%] text-xs shadow-sm">
+                    Hello! 👋 Welcome to Jay Repair Shop. How can I assist you with repairs, buying, or selling devices today?[cite: 1]
+                </div>
+            </div>
+
+            <div class="p-2 bg-slate-100 border-t border-gray-200 flex flex-wrap gap-1 text-xs">
+                <button onclick="sendQuickReply('How to sell my device?')" class="bg-white border border-gray-300 px-2.5 py-1 rounded-full hover:bg-slate-200 transition">How to Sell?</button>
+                <button onclick="sendQuickReply('Devices for sale?')" class="bg-white border border-gray-300 px-2.5 py-1 rounded-full hover:bg-slate-200 transition">Devices For Sale?</button>
+                <button onclick="sendQuickReply('Why repair here?')" class="bg-white border border-gray-300 px-2.5 py-1 rounded-full hover:bg-slate-200 transition">Why Choose Us?</button>
+                <button onclick="sendQuickReply('How do I book?')" class="bg-white border border-gray-300 px-2.5 py-1 rounded-full hover:bg-slate-200 transition">How to Book?</button>
+            </div>
+
+            <form id="chatForm" onsubmit="handleChatSubmit(event)" class="p-3 bg-white border-t border-gray-200 flex gap-2">
+                <input type="text" id="chatInput" placeholder="Type a message..." required class="grow px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brandAccent">
+                <button type="submit" class="bg-brandAccent text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-sky-500 transition">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-brandBlue text-gray-400 py-8 text-center text-sm border-t border-slate-800">
+        <p>&copy; 2026 Jay Repair Shop. All rights reserved.[cite: 1]</p>
+    </footer>
+
+    <!-- INTERACTIVE SCRIPTS -->
+    <script>
+        const defaultProducts = [
+            {
+                id: 1,
+                category: "cellphone",
+                title: "iPhone 12 Pro (128GB)",
+                price: "R 7,499",
+                badge: "Pre-Owned A+ Grade",
+                emoji: "📱",
+                images: [],
+                specs: ["Original Super Retina XDR OLED", "Includes Fast Charger & Glass Screen Protector", "3 Months Store Warranty"]
+            },
+            {
+                id: 2,
+                category: "laptop",
+                title: "Dell Latitude 5400 Laptop",
+                price: "R 4,850",
+                badge: "Refurbished",
+                emoji: "💻",
+                images: [],
+                specs: ["Core i5 8th Gen | 16GB RAM | 256GB SSD", "Fresh Windows 11 Pro & Office Package", "Excellent Battery Backup"]
+            },
+            {
+                id: 3,
+                category: "cellphone",
+                title: "Samsung Galaxy S21 5G",
+                price: "R 5,999",
+                badge: "Pre-Owned",
+                emoji: "📱",
+                images: [],
+                specs: ["120Hz Dynamic AMOLED Display", "64MP Triple Camera System", "Fully Tested & Clean IMEI"]
+            },
+            {
+                id: 4,
+                category: "computer",
+                title: "HP EliteDesk 800 G4 Workstation",
+                price: "R 6,200",
+                badge: "Refurbished Desktop",
+                emoji: "🖥️",
+                specs: ["Core i7 8th Gen | 16GB DDR4 RAM | 512GB NVMe SSD", "24-inch FHD LED Monitor Included", "Windows 11 Pro Ready"]
+            }
+        ];
+
+        let storeProducts = [];
+        try {
+            storeProducts = JSON.parse(localStorage.getItem('jay_store_inventory')) || defaultProducts;
+        } catch(err) {
+            storeProducts = defaultProducts;
+        }
+
+        let isAdminLoggedIn = false;
+        let photoSlotsArray = [null, null, null, null, null];
+        let sellPagePhotoBase64 = null;
+
+        function saveAndRenderProducts() {
+            try {
+                localStorage.setItem('jay_store_inventory', JSON.stringify(storeProducts));
+            } catch(e) {
+                alert("Storage limit reached! Try removing older items or using smaller images.");
+            }
+            renderProducts();
+        }
+
+        function switchMainImage(productId, index) {
+            const mainImg = document.getElementById(`main-img-${productId}`);
+            const prod = storeProducts.find(p => p.id === productId);
+            if (mainImg && prod && prod.images[index]) {
+                mainImg.src = prod.images[index];
+            }
+        }
+
+        function renderProducts() {
+            const categories = ['cellphone', 'computer', 'laptop'];
+            
+            categories.forEach(cat => {
+                const grid = document.getElementById(`grid-${cat}`);
+                if (!grid) return;
+                grid.innerHTML = '';
+
+                const categoryItems = storeProducts.filter(p => (p.category || 'cellphone') === cat);
+
+                if (categoryItems.length === 0) {
+                    grid.innerHTML = `
+                        <div class="col-span-full bg-white p-8 rounded-2xl border border-dashed border-gray-300 text-center text-gray-500">
+                            <p class="text-sm">No devices available in this category right now.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                categoryItems.forEach(prod => {
+                    const specItems = prod.specs.map(s => `<li>✓ ${s}</li>`).join('');
+                    const hasImages = prod.images && prod.images.length > 0;
+                    
+                    let imageContainerHtml = '';
+                    if (hasImages) {
+                        imageContainerHtml = `<img id="main-img-${prod.id}" src="${prod.images[0]}" alt="${prod.title}" class="w-full h-full object-cover transition duration-300">`;
+                    } else {
+                        imageContainerHtml = `<span class="text-6xl">${prod.emoji || '📱'}</span>`;
+                    }
+
+                    let thumbnailsHtml = '';
+                    if (hasImages && prod.images.length > 1) {
+                        thumbnailsHtml = `<div class="flex gap-1.5 p-2 bg-slate-900 border-t border-slate-800 overflow-x-auto">`;
+                        prod.images.forEach((imgSrc, idx) => {
+                            thumbnailsHtml += `
+                                <img src="${imgSrc}" onclick="switchMainImage(${prod.id}, ${idx})" class="w-10 h-10 object-cover rounded border border-slate-700 hover:border-brandAccent cursor-pointer transition">
+                            `;
+                        });
+                        thumbnailsHtml += `</div>`;
+                    }
+
+                    const cardHtml = `
+                    <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden flex flex-col hover:shadow-xl transition relative">
+                        ${isAdminLoggedIn ? `<button onclick="deleteProduct(${prod.id})" class="absolute top-2 left-2 bg-red-600 text-white text-xs px-2.5 py-1 rounded-md font-bold z-10 shadow">🗑 Delete</button>` : ''}
+                        <div class="h-52 bg-slate-900 flex items-center justify-center relative overflow-hidden">
+                            ${imageContainerHtml}
+                            <span class="absolute top-3 right-3 bg-emerald-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow z-10">${prod.badge}</span>
+                        </div>
+                        ${thumbnailsHtml}
+                        <div class="p-6 flex flex-col grow justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900 mb-1">${prod.title}</h3>
+                                <ul class="text-xs text-gray-600 space-y-1 mb-4">
+                                    ${specItems}
+                                </ul>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-black text-slate-900 mb-4">${prod.price}</div>
+                                <button onclick="buyDeviceWhatsApp('${prod.title}', '${prod.price}')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-xl font-bold flex justify-center items-center gap-2 transition">
+                                    💬 Buy via WhatsApp
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                    grid.innerHTML += cardHtml;
+                });
+            });
+        }
+
+        // --- SELL PAGE PHOTO HANDLER ---
+        function previewSellPhoto(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 600;
+                    const scaleSize = MAX_WIDTH / img.width;
+                    canvas.width = MAX_WIDTH;
+                    canvas.height = img.height * scaleSize;
+
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    sellPagePhotoBase64 = canvas.toDataURL('image/jpeg', 0.65);
+
+                    const holder = document.getElementById('sellPhotoHolder');
+                    holder.innerHTML = `<img src="${sellPagePhotoBase64}" class="max-h-48 object-contain rounded">`;
+                    document.getElementById('sellPhotoPreviewBox').classList.remove('hidden');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // --- SELL SUBMISSION WHATSAPP ---
+        function handleUserSellSubmission(e) {
+            e.preventDefault();
+            const name = document.getElementById('sellerName').value.trim();
+            const phone = document.getElementById('sellerPhone').value.trim();
+            const category = document.getElementById('sellCategory').value;
+            const title = document.getElementById('sellTitle').value.trim();
+            const price = document.getElementById('sellPrice').value.trim();
+            const condition = document.getElementById('sellCondition').value;
+            const specs = document.getElementById('sellSpecs').value.trim();
+
+            let whatsappText = `Hello Jay Repair Shop! 👋 I would like to sell my device:\n\n` +
+                               `👤 *Seller Name:* ${name}\n` +
+                               `📞 *Phone:* ${phone}\n` +
+                               `📂 *Category:* ${category.toUpperCase()}\n` +
+                               `📱 *Device:* ${title}\n` +
+                               `💰 *Asking Price:* ${price.startsWith('R') ? price : 'R ' + price}\n` +
+                               `⭐ *Condition:* ${condition}\n` +
+                               `📝 *Details:* ${specs}\n`;
+
+            if (sellPagePhotoBase64) {
+                whatsappText += `\n📸 *Photo attached via website interface.*`;
+            }
+
+            const url = `https://wa.me/27780688691?text=${encodeURIComponent(whatsappText)}`;
+            window.open(url, '_blank');
+        }
+
+        // --- CUSTOMER REVIEW SUBMISSION HANDLER ---
+        function handleReviewSubmission(e) {
+            e.preventDefault();
+            
+            const author = document.getElementById('reviewAuthor').value.trim();
+            const rating = document.getElementById('reviewRating').value;
+            const serviceType = document.getElementById('reviewServiceType').value;
+            const comment = document.getElementById('reviewComment').value.trim();
+
+            let whatsappReviewText = `Hello Jay Repair Shop! 🌟 I would like to submit a customer review:\n\n` +
+                                     `👤 *Reviewer:* ${author}\n` +
+                                     `⭐ *Rating:* ${rating}\n` +
+                                     `💼 *Service:* ${serviceType}\n` +
+                                     `💬 *Feedback:* "${comment}"\n`;
+
+            const url = `https://wa.me/27780688691?text=${encodeURIComponent(whatsappReviewText)}`;
+            window.open(url, '_blank');
+
+            document.getElementById('reviewSubmissionForm').reset();
+            document.getElementById('reviewSuccessCard').classList.remove('hidden');
+        }
+
+        function resetReviewForm() {
+            document.getElementById('reviewSuccessCard').classList.add('hidden');
+        }
+
+        // --- ADMIN MODAL & PHOTO SLOTS MANAGEMENT ---
+        function openAdminModal() {
+            document.getElementById('adminModal').classList.remove('hidden');
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.add('hidden');
+        }
+
+        function checkAdminPasscode() {
+            const pass = document.getElementById('adminPasscode').value;
+            if (pass === '$20Billion') { 
+                isAdminLoggedIn = true;
+                document.getElementById('adminLoginBox').classList.add('hidden');
+                document.getElementById('adminFormBox').classList.remove('hidden');
+                renderProducts();
+            } else {
+                alert('Incorrect Passcode!');
+            }
+        }
+
+        // AUTO-COMPRESS IMAGES TO PREVENT STORAGE BLOCKS
+        function handleSingleSlotPhoto(event, index) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 600;
+                    const scaleSize = MAX_WIDTH / img.width;
+                    canvas.width = MAX_WIDTH;
+                    canvas.height = img.height * scaleSize;
+
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    const compressedBase64 = canvas.toDataURL('image/jpeg', 0.65);
+                    photoSlotsArray[index] = compressedBase64;
+                    updateSlotPreviews();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateSlotPreviews() {
+            const container = document.getElementById('slotPreviewsContainer');
+            const thumbsFlex = document.getElementById('slotThumbsFlex');
+            thumbsFlex.innerHTML = '';
+
+            const validPhotos = photoSlotsArray.filter(img => img !== null);
+
+            if (validPhotos.length > 0) {
+                container.classList.remove('hidden');
+                validPhotos.forEach((imgSrc) => {
+                    const thumb = document.createElement('img');
+                    thumb.src = imgSrc;
+                    thumb.className = "w-12 h-12 object-cover rounded border border-emerald-500 shadow-sm";
+                    thumbsFlex.appendChild(thumb);
+                });
+            }
+        }
+
+        function handleAddNewDevice(e) {
+            e.preventDefault();
+            
+            const category = document.getElementById('newCategory').value;
+            const title = document.getElementById('newTitle').value.trim();
+            const price = document.getElementById('newPrice').value.trim();
+            const badge = document.getElementById('newBadge').value.trim();
+            const emoji = document.getElementById('newEmoji').value;
+            const specsRaw = document.getElementById('newSpecs').value.trim();
+
+            const specs = specsRaw.split(/[\n,]+/).map(s => s.trim()).filter(s => s.length > 0);
+            
+            const finalImages = photoSlotsArray.filter(img => img !== null);
+
+            const newProd = {
+                id: Date.now(),
+                category: category,
+                title: title,
+                price: price.startsWith('R') ? price : `R ${price}`,
+                badge: badge,
+                emoji: emoji,
+                images: finalImages,
+                specs: specs
+            };
+
+            storeProducts.unshift(newProd);
+            saveAndRenderProducts();
+
+            document.getElementById('addDeviceForm').reset();
+            photoSlotsArray = [null, null, null, null, null];
+            document.getElementById('slotPreviewsContainer').classList.add('hidden');
+            document.getElementById('slotThumbsFlex').innerHTML = '';
+            
+            closeAdminModal();
+            window.location.hash = '#shop';
+            alert('🎉 Device published successfully to your store catalog!');
+        }
+
+        function deleteProduct(id) {
+            if (confirm('Are you sure you want to remove this device from the store catalog?')) {
+                storeProducts = storeProducts.filter(p => p.id !== id);
+                saveAndRenderProducts();
+            }
+        }
+
+        // --- PAGE ROUTER ---
+        function navigateToPage() {
+            const hash = window.location.hash.replace('#', '') || 'home';
+            const pages = ['home', 'booking', 'shop', 'sell', 'spin-and-save', 'guides-reviews', 'contact'];
+
+            pages.forEach(page => {
+                const pageEl = document.getElementById(`page-${page}`);
+                if (pageEl) {
+                    if (page === hash) {
+                        pageEl.classList.remove('hidden');
+                    } else {
+                        pageEl.classList.add('hidden');
+                    }
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('hashchange', navigateToPage);
+        window.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            navigateToPage();
+        });
+
+        // --- WHATSAPP STORE ORDERING ---
+        function buyDeviceWhatsApp(productName, price) {
+            const text = `Hello Jay Repair Shop! 👋 I am interested in purchasing the following device from your website store:\n\n📱 *Device:* ${productName}\n💰 *Price:* ${price}\n\nIs this item currently available?`;
+            const url = `https://wa.me/27780688691?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
+
+        // --- CHATBOT ENGINE ---
+        function toggleChatbot() {
+            document.getElementById('chatbotWindow').classList.toggle('hidden');
+        }
+
+        function sendQuickReply(text) {
+            document.getElementById('chatInput').value = text;
+            handleChatSubmit(new Event('submit'));
+        }
+
+        function handleChatSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('chatInput');
+            const query = input.value.trim();
+            if (!query) return;
+
+            appendChatMessage(query, 'user');
+            input.value = '';
+
+            setTimeout(() => {
+                let botReply = getBotResponse(query);
+                appendChatMessage(botReply, 'bot');
+            }, 400);
+        }
+
+        function appendChatMessage(text, sender) {
+            const container = document.getElementById('chatMessages');
+            const msg = document.createElement('div');
+
+            if (sender === 'user') {
+                msg.className = 'bg-brandAccent text-white p-3 rounded-xl rounded-tr-none max-w-[85%] ml-auto text-xs font-medium shadow-sm';
+            } else {
+                msg.className = 'bg-slate-200 text-slate-800 p-3 rounded-xl rounded-tl-none max-w-[85%] text-xs shadow-sm';
+            }
+
+            msg.innerHTML = text;
+            container.appendChild(msg);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function getBotResponse(input) {
+            const lower = input.toLowerCase();
+
+            if (lower.includes('sell') || lower.includes('my old phone') || lower.includes('my device')) {
+                return "💵 **Want to Sell Your Stuff?**<br>" +
+                       "You can easily submit your used phones, laptops, or computers to us for cash!<br><br>" +
+                       "👉 <a href='#sell' onclick='toggleChatbot()' class='text-amber-600 font-bold underline'>Click here to open the Sell Your Device form</a>.";
+            }
+
+            else if (lower.includes('buy') || lower.includes('sale') || lower.includes('store') || lower.includes('laptop') || lower.includes('phone for sale')) {
+                return "🛒 **Electronic Devices For Sale!**<br>" +
+                       "We sell certified pre-owned and refurbished iPhones, Samsung phones, laptops, and desktop setups with warranty!<br><br>" +
+                       "👉 <a href='#shop' onclick='toggleChatbot()' class='text-emerald-600 font-bold underline'>Click here to browse our device catalog</a>.";
+            }
+
+            else if (lower.includes('price') || lower.includes('cost') || lower.includes('how much') || lower.includes('quote') || lower.includes('rate') || lower.includes('cheap')) {
+                return "⚡ **Custom Quotes & Transparent Pricing:**<br>" +
+                       "Because every phone model and repair requirement is different, we don't give out static online repair prices. Submit your device model on our booking form to receive an accurate quote!<br><br>" +
+                       "👉 <a href='#booking' onclick='toggleChatbot()' class='text-sky-600 font-bold underline'>Click here to book your repair & get a quote</a>.";
+            }
+
+            else if (lower.includes('screen') || lower.includes('display') || lower.includes('glass') || lower.includes('lcd') || lower.includes('oled') || lower.includes('quality')) {
+                return "📱 **Understanding Screen Qualities:**<br>" +
+                       "We offer high-grade repair options to fit your preference:<br>" +
+                       "• **Original / OLED Displays:** Best vibrancy, exact original touch response, and premium glass durability.<br>" +
+                       "• **Grade-A Compatible Screens:** High-quality budget alternative tested for reliable everyday performance.<br><br>" +
+                       "🛡️ Both options come backed by our service guarantee! <a href='#booking' onclick='toggleChatbot()' class='text-sky-600 font-bold underline'>Book your screen repair now</a>.";
+            }
+
+            else if (lower.includes('guarantee') || lower.includes('warranty') || lower.includes('why') || lower.includes('trust') || lower.includes('choose')) {
+                return "🏆 **Why Choose Jay Repair Shop?**<br>" +
+                       "• **Certified Workmanship & Quality Guarantee:** Every installed component comes with a quality warranty.<br>" +
+                       "• **Fast Priority Care:** Booking ahead skips long walk-in wait times.<br>" +
+                       "• **Doorstep Repairs:** We bring the repair service straight to your home!<br><br>" +
+                       "Don't risk your phone with uncertified mechanics—let our technicians do it right the first time. <a href='#booking' onclick='toggleChatbot()' class='text-sky-600 font-bold underline'>Reserve your slot today!</a>";
+            }
+
+            else if (lower.includes('pay') || lower.includes('deposit') || lower.includes('book') || lower.includes('reserve')) {
+                return "💳 **Lock In Your Priority Slot:**<br>" +
+                       "Completing your booking/deposit guarantees priority handling and locks in your technician slot right away!<br><br>" +
+                       "🎁 *Bonus:* Want a discount on your deposit? Try your luck on our <a href='#spin-and-save' onclick='toggleChatbot()' class='text-amber-600 font-bold underline'>Spin & Save wheel</a> to unlock 20% off!";
+            }
+
+            else {
+                return "Hello! 👋 At Jay Repair Shop, we repair phones & laptops, sell quality electronics, and buy your old devices.<br><br>" +
+                       "👉 <a href='#sell' onclick='toggleChatbot()' class='text-amber-600 font-bold underline'>Sell Your Stuff</a> or <a href='#shop' onclick='toggleChatbot()' class='text-emerald-600 font-bold underline'>Browse Devices For Sale</a>!";
+            }
+        }
+
+        // --- FORM TOGGLE & MEDIA ---
+        function toggleHomeOption() {
+            const mode = document.getElementById('serviceMode').value;
+            const addressBox = document.getElementById('homeAddressContainer');
+            const mediaBox = document.getElementById('mediaCaptureContainer');
+
+            if (mode === 'Fix at Home') {
+                addressBox.classList.remove('hidden');
+                mediaBox.classList.remove('hidden');
+            } else {
+                addressBox.classList.add('hidden');
+                mediaBox.classList.add('hidden');
+            }
+        }
+
+        function previewMedia(event) {
+            const file = event.target.files[0];
+            const previewBox = document.getElementById('mediaPreviewBox');
+            const holder = document.getElementById('previewHolder');
+            holder.innerHTML = '';
+
+            if (file) {
+                const url = URL.createObjectURL(file);
+                if (file.type.startsWith('image/')) {
+                    const img = document.createElement('img');
+                    img.src = url;
+                    img.className = 'max-h-48 rounded object-contain';
+                    holder.appendChild(img);
+                } else if (file.type.startsWith('video/')) {
+                    const video = document.createElement('video');
+                    video.src = url;
+                    video.controls = true;
+                    video.className = 'max-h-48 rounded';
+                    holder.appendChild(video);
+                }
+                previewBox.classList.remove('hidden');
+            }
+        }
+
+        function previewHouseMedia(event) {
+            const file = event.target.files[0];
+            const previewBox = document.getElementById('housePreviewBox');
+            const holder = document.getElementById('housePreviewHolder');
+            holder.innerHTML = '';
+
+            if (file) {
+                const url = URL.createObjectURL(file);
+                const img = document.createElement('img');
+                img.src = url;
+                img.className = 'max-h-40 rounded object-contain';
+                holder.appendChild(img);
+                previewBox.classList.remove('hidden');
+            }
+        }
+
+        // --- WHEEL LOGIC ---
+        const canvas = document.getElementById('wheel');
+        const ctx = canvas.getContext('2d');
+        const spinBtn = document.getElementById('spinBtn');
+        let wonPrize = null;
+
+        const slices = [
+            { label: "20% Deposit Off", color: "#0ea5e9", value: "20% Deposit Off", code: "DEPOSIT20", isWin: true },
+            { label: "10% Off Repair", color: "#334155", value: "10% Off Repair", code: "REPAIR10", isWin: true },
+            { label: "Better Luck Next Time", color: "#475569", value: "No Discount Won", code: "NOWIN", isWin: false },
+            { label: "5% Off Repair", color: "#0284c7", value: "5% Off Repair", code: "REPAIR5", isWin: true },
+            { label: "Try Again", color: "#1e293b", value: "No Discount Won", code: "NOWIN", isWin: false },
+            { label: "20% Deposit Off", color: "#0ea5e9", value: "20% Deposit Off", code: "DEPOSIT20", isWin: true }
+        ];
+
+        const numSlices = slices.length;
+        const sliceAngle = (2 * Math.PI) / numSlices;
+        let currentRotation = 0;
+        let isSpinning = false;
+
+        function drawWheel() {
+            const radius = canvas.width / 2;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < numSlices; i++) {
+                const startAngle = i * sliceAngle;
+                const endAngle = startAngle + sliceAngle;
+
+                ctx.beginPath();
+                ctx.moveTo(radius, radius);
+                ctx.arc(radius, radius, radius, startAngle, endAngle);
+                ctx.fillStyle = slices[i].color;
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.save();
+                ctx.translate(radius, radius);
+                ctx.rotate(startAngle + sliceAngle / 2);
+                ctx.textAlign = "right";
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "bold 12px sans-serif";
+                ctx.fillText(slices[i].label, radius - 15, 4);
+                ctx.restore();
+            }
+        }
+        drawWheel();
+
+        function spinWheel() {
+            if (isSpinning) return;
+            isSpinning = true;
+            spinBtn.disabled = true;
+            spinBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+            const targetSliceIndex = Math.floor(Math.random() * numSlices); 
+            const sliceDeg = 360 / numSlices;
+            const sliceCenterDeg = (targetSliceIndex * sliceDeg) + (sliceDeg / 2);
+            const targetRotation = (5 * 360) + (270 - sliceCenterDeg);
+
+            currentRotation += targetRotation;
+            canvas.style.transform = `rotate(${currentRotation}deg)`;
+
+            setTimeout(() => {
+                wonPrize = slices[targetSliceIndex];
+                showWheelResult(wonPrize);
+            }, 4000);
+        }
+
+        function showWheelResult(prize) {
+            const wheelResult = document.getElementById('wheelResult');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultText = document.getElementById('resultText');
+
+            if (prize.isWin) {
+                resultTitle.innerText = "🎉 Congratulations!";
+                resultTitle.className = "text-xl font-bold text-emerald-400 mb-1";
+                resultText.innerText = `You won: ${prize.value}! Coupon [${prize.code}] will attach to your repair request.`;
+                document.getElementById('displayDiscount').innerText = `${prize.value} (${prize.code})`;
+            } else {
+                resultTitle.innerText = "😅 Almost Had It!";
+                resultTitle.className = "text-xl font-bold text-amber-400 mb-1";
+                resultText.innerText = `You landed on ${prize.label}. You can still book your repair at standard rates!`;
+                document.getElementById('displayDiscount').innerText = "None";
+            }
+
+            wheelResult.classList.remove('hidden');
+        }
+
+        // --- REPAIR TOOLS INTERACTIVE FUNCTIONS ---
+        function trackRepairStatus() {
+            const input = document.getElementById('trackInput').value.trim();
+            const resultBox = document.getElementById('trackResultBox');
+            const statusText = document.getElementById('trackStatusText');
+            const detailsText = document.getElementById('trackDetailsText');
+
+            if (!input) {
+                alert("Please enter a valid ticket number or phone number.");
+                return;
+            }
+
+            resultBox.classList.remove('hidden');
+            statusText.innerText = "Ready for Pickup / Delivery ⚡";
+            detailsText.innerText = `Ticket (${input}): Component replacement completed successfully. Tested and verified working condition.`;
+        }
+
+        // --- FORM SUBMISSION TO WHATSAPP ---
+        document.getElementById('repairForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const serviceMode = document.getElementById('serviceMode').value;
+            const userName = document.getElementById('userName').value;
+            const userPhone = document.getElementById('userPhone').value;
+            const deviceType = document.getElementById('deviceType').value;
+            const deviceName = document.getElementById('deviceName').value;
+
+            const houseNumber = document.getElementById('houseNumber').value;
+            const streetName = document.getElementById('streetName').value;
+            const subTown = document.getElementById('subTown').value;
+            const town = document.getElementById('town').value;
+
+            const bDate = document.getElementById('bookingDate').value;
+            const bTime = document.getElementById('bookingTime').value;
+            
+            const issueSelect = document.getElementById('issue');
+            const selectedIssueText = issueSelect.options[issueSelect.selectedIndex].text;
+
+            const appliedVoucher = (wonPrize && wonPrize.isWin) ? `${wonPrize.value} [${wonPrize.code}]` : "None Applied";
+            const fullAddressText = `${houseNumber}, ${streetName}, ${subTown}, ${town}`;
+
+            document.getElementById('displayName').innerText = userName;
+            document.getElementById('displayPhone').innerText = userPhone;
+            document.getElementById('displayMode').innerText = serviceMode + (serviceMode === 'Fix at Home' ? ` (${fullAddressText})` : '');
+            document.getElementById('displayDevice').innerText = `${deviceType} (${deviceName})`;
+            document.getElementById('displayService').innerText = selectedIssueText;
+            document.getElementById('displaySchedule').innerText = `${bDate} at ${bTime}`;
+            document.getElementById('displayDiscount').innerText = appliedVoucher;
+
+            const resultCard = document.getElementById('resultCard');
+            resultCard.classList.remove('hidden');
+            resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            let whatsappText = `Hello Jay Repair Shop! I would like to book a repair:\n\n` +
+                               `👤 *Name:* ${userName}\n` +
+                               `📞 *Phone:* ${userPhone}\n` +
+                               `🛠️ *Option:* ${serviceMode}\n`;
+            
+            if (serviceMode === 'Fix at Home') {
+                whatsappText += `🏠 *Address:* ${fullAddressText}\n`;
+            }
+
+            whatsappText += `📱 *Device:* ${deviceType} (${deviceName})\n` +
+                            `🔧 *Issue:* ${selectedIssueText}\n` +
+                            `📅 *Date:* ${bDate}\n` +
+                            `⏰ *Time:* ${bTime}\n` +
+                            `🎁 *Voucher:* ${appliedVoucher}\n`;
+
+            const whatsappUrl = `https://wa.me/27780688691?text=${encodeURIComponent(whatsappText)}`;
+
+            window.open(whatsappUrl, '_blank');
+
+            document.getElementById('sendWhatsAppFallback').onclick = function() {
+                window.open(whatsappUrl, '_blank');
+            };
+        });
+    </script>
+</body>
+</html>
